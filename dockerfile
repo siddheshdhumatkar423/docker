@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Ensure pip is up to date
+RUN python -m pip install --upgrade pip
+
 # Install any dependencies that the app needs (for example, Python dependencies)
 RUN pip install --no-cache-dir -r requirements.txt
 
