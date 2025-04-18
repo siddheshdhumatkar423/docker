@@ -1,24 +1,19 @@
-name: Build Node.js Docker Image
+FROM node:18
 
-on:
-  push:
-    branches: [ main ]
+WORKDIR /app
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# Copy only package files first for caching
+COPY package*.json ./
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+# Install dependencies
+RUN npm install --verbose
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+# Copy app files
+COPY . .
 
-      - name: Build Docker image (without pushing)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false  # Don't push to any registry
-          tags: nodejs-app:local  # Just a local tag
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+
 
