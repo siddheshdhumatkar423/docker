@@ -6,7 +6,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+RUN node -v && npm -v
+RUN ls -la
+RUN cat package.json
 RUN npm install --verbose
+
 
 # Copy app files
 COPY . .
