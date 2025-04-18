@@ -9,7 +9,8 @@ COPY package*.json ./
 RUN node -v && npm -v
 RUN ls -la
 RUN cat package.json
-RUN npm install --verbose
+RUN npm install 
+run npm start
 
 
 # Copy app files
