@@ -2,18 +2,19 @@ FROM node:18
 
 WORKDIR /app
 
-# Copy only package files first for caching
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN node -v && npm -v
+# List files to verify the package.json is copied
 RUN ls -la
+
+# Check the contents of package.json (optional)
 RUN cat package.json
-RUN npm install 
-run npm start
 
+# Install dependencies
+RUN npm install --verbose
 
-# Copy app files
+# Copy the rest of the app files
 COPY . .
 
 EXPOSE 3000
