@@ -1,20 +1,25 @@
-# Use an official Python runtime as a base image
-FROM python:3.12.6-slim
+# Use Ubuntu as the base image
+FROM ubuntu:22.04
 
-# Set the working directory inside the container
+# Prevent user interaction during package install
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+# Install Python and pip (modify if you need other environments)
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy your application code to the container
 COPY . /app
 
-# Upgrade pip and install dependencies
-RUN python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt || \
-    tail -n 20 /root/.cache/pip/logs/*
+# Install Python dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Expose a port (if your app needs it, modify the port number as needed)
+# Expose the port your app runs on (change if needed)
 EXPOSE 5000
 
-# Set the default command to run the application (change this to fit your app)
-CMD ["python", "app.py"]
-
+# Run your Python app (change this to your actual app entry point)
+CMD ["python3", "app.py"]
