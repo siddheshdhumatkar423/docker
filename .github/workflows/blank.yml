@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build Docker Image Locally
 
 on:
   push:
@@ -15,10 +15,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      
-      - name: Build and push Docker image
+      - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
-         
+          push: false  # <--- no pushing!
+          tags: local-image:test  # still needs a tag, but won't push
